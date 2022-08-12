@@ -3,8 +3,10 @@ const projectsRouter = require("./projects/projects-router");
 const actionsRouter = require("./actions/actions-router");
 
 const server = express();
+const { logger } = require("./projects/projects-middleware");
 
 server.use(express.json());
+server.use("/", logger);
 
 server.use("/api/projects", projectsRouter);
 server.use("/api/actions", actionsRouter);
@@ -14,7 +16,7 @@ server.use("/api/actions", actionsRouter);
 // Do NOT `server.listen()` inside this file!
 
 server.use("*", (req, res) => {
-  res.status(500).json({ message: "server messed up" });
+  res.status(500).json({ message: "invalid endpoint, try again never" });
 });
 
 module.exports = server;
