@@ -10,13 +10,13 @@ const validateActionID = (req, res, next) => {
     return;
   } else {
     Actions.get(req.params.id)
-      .then((project) => {
-        if (!project) {
+      .then((action) => {
+        if (!action) {
           res.status(404).json({
-            message: `project with id ${req.params.id} doesn't exist`,
+            message: `action with id ${req.params.id} doesn't exist`,
           });
         } else {
-          req.project = project;
+          req.action = action;
           next();
         }
       })
@@ -27,18 +27,22 @@ const validateActionID = (req, res, next) => {
 };
 
 const validateActionPost = (req, res, next) => {
-  const { name, description, completed } = req.body;
+  const { notes, description, completed, project_id } = req.body;
   if (
-    !name ||
+    !notes ||
     !description ||
-    !name.trim() ||
+    !notes.trim() ||
     !description.trim() ||
-    completed == null
+    completed == null ||
+    !project_id
   ) {
-    res.status(400).json({ message: "name and description are required" });
+    res.status(400).json({ message: "project_id, notes and description are required" });
+  } else if (typeof project_id !== "number") {
+    res.status(400).json({ message: "project_id must be a number" });
   } else {
-    req.projectText = {
-      name: name.trim(),
+    req.actionText = {
+      project_id: project_id,
+      notes: notes.trim(),
       description: description.trim(),
       completed: completed,
     };

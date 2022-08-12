@@ -4,10 +4,7 @@ const express = require("express");
 const router = express.Router();
 
 //importing middlewares
-const {
-  validateProjectId,
-  validateProjectPost,
-} = require("./projects-middleware");
+const { validateProjectId, validateProjectPost } = require("./projects-middleware");
 
 //importing projects model
 const Projects = require("./projects-model");
@@ -63,6 +60,7 @@ router.use(
   ) => {
     res.status(err.status || 500).json({
       message: err.message,
+      customMessage: "Something went wrong!, try again never",
     });
   }
 );
