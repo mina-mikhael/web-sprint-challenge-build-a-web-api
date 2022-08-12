@@ -37,8 +37,8 @@ router.put("/:id", validateID, validatePost, (req, res, next) => {
 
 router.delete("/:id", validateID, (req, res, next) => {
   Projects.remove(req.params.id)
-    .then((result) => {
-      res.json(result);
+    .then((project) => {
+      res.json(project);
     })
     .catch(next);
 });
@@ -50,5 +50,18 @@ router.get("/:id/actions", validateID, (req, res, next) => {
     })
     .catch(next);
 });
+
+router.use(
+  (
+    err,
+    req,
+    res,
+    next //eslint-disable-line
+  ) => {
+    res.status(err.status || 500).json({
+      message: err.message,
+    });
+  }
+);
 
 module.exports = router;
