@@ -36,12 +36,24 @@ const validateID = (req, res, next) => {
 };
 
 const validatePost = (req, res, next) => {
-  const { name, description } = req.body;
-  if (!name || !description || !name.trim() || !description.trim()) {
+  const { name, description, completed } = req.body;
+  if (
+    !name ||
+    !description ||
+    !name.trim() ||
+    !description.trim() ||
+    completed == null
+  ) {
     res.status(400).json({ message: "name and description are required" });
-    return;
+  } else {
+    req.projectText = {
+      name: name.trim(),
+      description: description.trim(),
+      completed: completed,
+    };
+
+    next();
   }
-  next();
 };
 
 module.exports = {

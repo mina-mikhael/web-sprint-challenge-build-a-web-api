@@ -20,9 +20,33 @@ router.get("/:id", validateID, (req, res) => {
 });
 
 router.post("/", validatePost, (req, res, next) => {
-  Projects.insert(req.body)
+  Projects.insert(req.projectText)
     .then((project) => {
       res.status(201).json(project);
+    })
+    .catch(next);
+});
+
+router.put("/:id", validateID, validatePost, (req, res, next) => {
+  Projects.update(req.params.id, req.projectText)
+    .then((project) => {
+      res.json(project);
+    })
+    .catch(next);
+});
+
+router.delete("/:id", validateID, (req, res, next) => {
+  Projects.remove(req.params.id)
+    .then((result) => {
+      res.json(result);
+    })
+    .catch(next);
+});
+
+router.get("/:id/actions", validateID, (req, res, next) => {
+  Projects.getProjectActions(req.params.id)
+    .then((projectActions) => {
+      res.json(projectActions);
     })
     .catch(next);
 });
