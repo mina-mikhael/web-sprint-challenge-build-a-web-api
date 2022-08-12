@@ -11,7 +11,7 @@ function logger(req, res, next) {
   next();
 }
 
-const validateID = (req, res, next) => {
+const validateProjectId = (req, res, next) => {
   if (!req.params.id) {
     res.status(404).json({
       message: `project id is required`,
@@ -35,7 +35,7 @@ const validateID = (req, res, next) => {
   }
 };
 
-const validatePost = (req, res, next) => {
+const validateProjectPost = (req, res, next) => {
   const { name, description, completed } = req.body;
   if (
     !name ||
@@ -57,7 +57,7 @@ const validatePost = (req, res, next) => {
 };
 
 module.exports = {
-  validateID,
-  validatePost,
+  validateProjectId,
+  validateProjectPost,
   logger,
 };
