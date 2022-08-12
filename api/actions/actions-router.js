@@ -29,18 +29,21 @@ router.post("/", validateActionPost, (req, res, next) => {
     .catch(next);
 });
 
-// router.verb('/', (req, res, next) =>{
+router.put("/:id", validateActionID, validateActionPost, (req, res, next) => {
+  Actions.update(req.params.id, req.actionText)
+    .then((action) => {
+      res.json(action);
+    })
+    .catch(next);
+});
 
-// })
-// router.verb('/', (req, res, next) =>{
-
-// })
-// router.verb('/', (req, res, next) =>{
-
-// })
-// router.verb('/', (req, res, next) =>{
-
-// })
+router.delete("/:id", validateActionID, (req, res, next) => {
+  Actions.remove(req.params.id)
+    .then((action) => {
+      res.json(action);
+    })
+    .catch(next);
+});
 
 router.use(
   (
